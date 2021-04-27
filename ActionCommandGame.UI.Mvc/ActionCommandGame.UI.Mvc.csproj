@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ActionCommandGame.Services.Abstractions\ActionCommandGame.Services.Abstractions.csproj" />
+      <ProjectReference Include="..\ActionCommandGame.Services.Model\ActionCommandGame.Services.Model.csproj" />
+      <ProjectReference Include="..\ActionCommandGame.Services\ActionCommandGame.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.3.21201.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\Administrator\Controllers\" />
+      <Folder Include="Areas\Administrator\Models\" />
+      <Folder Include="Areas\Administrator\Views\" />
+      <Folder Include="Areas\Gamer\Controllers\" />
+      <Folder Include="Areas\Gamer\Models\" />
+      <Folder Include="Areas\Gamer\Views\" />
+    </ItemGroup>
+
+</Project>
