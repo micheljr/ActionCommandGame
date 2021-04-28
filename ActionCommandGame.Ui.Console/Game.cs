@@ -40,7 +40,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             ConsoleWriter.WriteText($"Play your game. Try typing \"help\" or \"{_settings.ActionCommand}\"", ConsoleColor.Yellow);
 
             //Get the player from somewhere
-            var currentPlayerId = 1;
+            var currentPlayerId = _playerService.GetByName("NewPlayer").Id;
 
             while (true)
             {
@@ -73,14 +73,8 @@ namespace ActionCommandGame.Ui.ConsoleApp
                 if (CheckCommand(command, new[] { "buy", "purchase", "get" }))
                 {
                     var itemId = GetIdParameterFromCommand(command);
-
-                    if (!itemId.HasValue)
-                    {
-                        ConsoleWriter.WriteText("I have no idea what you mean. I have tagged every item with a number. Please give me that number.", ConsoleColor.Red);
-                        continue;
-                    }
-
-                    Buy(currentPlayerId, itemId.Value);
+                    
+                    Buy(currentPlayerId, itemId);
                 }
 
                 if (CheckCommand(command, new[] { "bal", "balance", "money", "xp", "level", "statistics", "stats", "stat", "info" }))
@@ -169,7 +163,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             return matchingCommands.Any(c => command.ToLower().StartsWith(c.ToLower()));
         }
 
-        public void ShowStats(int playerId)
+        public void ShowStats(Guid playerId)
         {
             var player = _playerService.Get(playerId);
 
@@ -218,7 +212,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             ConsoleWriter.WriteText();
         }
 
-        private void ShowLeaderboard(IList<Player> players, int currentPlayerId)
+        private void ShowLeaderboard(IList<Player> players, Guid currentPlayerId)
         {
             foreach (var player in players)
             {
@@ -281,7 +275,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             ConsoleWriter.WriteText();
         }
 
-        private void PerformAction(int playerId)
+        private void PerformAction(Guid playerId)
         {
             var result = _gameService.PerformAction(playerId);
 
@@ -320,7 +314,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             ConsoleWriter.WriteText();
         }
 
-        private void Buy(int playerId, int itemId)
+        private void Buy(Guid playerId, Guid itemId)
         {
             var result = _gameService.Buy(playerId, itemId);
 
@@ -344,16 +338,16 @@ namespace ActionCommandGame.Ui.ConsoleApp
             Console.WriteLine();
         }
 
-        private int? GetIdParameterFromCommand(string command)
+        private Guid GetIdParameterFromCommand(string command)
         {
             var commandParts = command.Split(" ");
             if (commandParts.Length == 1)
             {
-                return null;
+                return Guid.NewGuid();
             }
             var idPart = commandParts[1];
 
-            int.TryParse(idPart, out var itemId);
+            var itemId = Guid.Parse(idPart);
             
             return itemId;
         }

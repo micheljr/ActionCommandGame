@@ -27,8 +27,8 @@ namespace ActionCommandGame.Ui.ConsoleApp
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
-            var database = ServiceProvider.GetRequiredService<ActionButtonGameDbContext>();
-            database.Initialize();
+            var database = ServiceProvider.GetRequiredService<ActionButtonGameUiDbContext>();
+            //database.Initialize();
             
             var game = ServiceProvider.GetRequiredService<Game>();
             game.Start();
@@ -43,9 +43,10 @@ namespace ActionCommandGame.Ui.ConsoleApp
             services.AddSingleton(appSettings);
 
             //Register the EntityFramework database In Memory as a Singleton
-            services.AddDbContext<ActionButtonGameDbContext>(options =>
+            var connectionString = Configuration.GetConnectionString("gameDatabaseTest");
+            services.AddDbContext<ActionButtonGameUiDbContext>(options =>
             {
-                options.UseInMemoryDatabase("InMemoryDb");
+                options.UseSqlServer(connectionString);
             }, ServiceLifetime.Singleton, ServiceLifetime.Singleton);
 
             services.AddTransient<Game>();

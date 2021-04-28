@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ActionCommandGame.Model;
 using ActionCommandGame.Repository;
@@ -9,14 +10,14 @@ namespace ActionCommandGame.Services
 {
     public class PlayerService: IPlayerService
     {
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
 
-        public PlayerService(ActionButtonGameDbContext database)
+        public PlayerService(ActionButtonGameUiDbContext database)
         {
             _database = database;
         }
 
-        public Player Get(int id)
+        public Player Get(Guid id)
         {
             return _database.Players
                 .Include(p => p.CurrentFuelPlayerItem.Item)
@@ -39,14 +40,23 @@ namespace ActionCommandGame.Services
             throw new System.NotImplementedException();
         }
 
-        public Player Update(int id, Player player)
+        public Player Update(Guid id, Player player)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Player GetByName(string name)
+        {
+            return _database.Players
+                .Include(p => p.CurrentFuelPlayerItem.Item)
+                .Include(p => p.CurrentAttackPlayerItem.Item)
+                .Include(p => p.CurrentDefensePlayerItem.Item)
+                .SingleOrDefault(p => p.Name.Equals(name));
         }
     }
 }

@@ -10,14 +10,14 @@ namespace ActionCommandGame.Services
 {
     public class NegativeGameEventService: INegativeGameEventService
     {
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
 
-        public NegativeGameEventService(ActionButtonGameDbContext database)
+        public NegativeGameEventService(ActionButtonGameUiDbContext database)
         {
             _database = database;
         }
 
-        public NegativeGameEvent Get(int id)
+        public NegativeGameEvent Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -38,12 +38,12 @@ namespace ActionCommandGame.Services
             throw new NotImplementedException();
         }
 
-        public NegativeGameEvent Update(int id, NegativeGameEvent gameEvent)
+        public NegativeGameEvent Update(Guid id, NegativeGameEvent gameEvent)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             throw new NotImplementedException();
         }

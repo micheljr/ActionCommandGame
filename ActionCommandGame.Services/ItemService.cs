@@ -9,14 +9,14 @@ namespace ActionCommandGame.Services
 {
     public class ItemService: IItemService
     {
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
 
-        public ItemService(ActionButtonGameDbContext database)
+        public ItemService(ActionButtonGameUiDbContext database)
         {
             _database = database;
         }
 
-        public Item Get(int id)
+        public Item Get(Guid id)
         {
             return _database.Items.SingleOrDefault(i => i.Id == id);
         }
@@ -31,12 +31,12 @@ namespace ActionCommandGame.Services
             throw new NotImplementedException();
         }
 
-        public Item Update(int id, Item item)
+        public Item Update(Guid id, Item item)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -11,26 +11,26 @@ namespace ActionCommandGame.Services
 {
     public class PlayerItemService : IPlayerItemService
     {
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
 
-        public PlayerItemService(ActionButtonGameDbContext database)
+        public PlayerItemService(ActionButtonGameUiDbContext database)
         {
             _database = database;
         }
 
-        public PlayerItem Get(int id)
+        public PlayerItem Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public IList<PlayerItem> Find(int? playerId = null)
+        public IList<PlayerItem> Find(Guid? playerId = null)
         {
             var query = _database.PlayerItems.AsQueryable();
 
             if (playerId.HasValue)
             {
                 query = query
-                    .Where(pi => pi.PlayerId == playerId.Value);
+                    .Where(pi => pi.PlayerId == playerId);
 
             }
 
@@ -39,7 +39,7 @@ namespace ActionCommandGame.Services
             return query.ToList();
         }
 
-        public ServiceResult<PlayerItem> Create(int playerId, int itemId)
+        public ServiceResult<PlayerItem> Create(Guid playerId, Guid itemId)
         {
             var player = _database.Players.SingleOrDefault(p => p.Id == playerId);
             if (player == null)
@@ -89,12 +89,12 @@ namespace ActionCommandGame.Services
             return new ServiceResult<PlayerItem>(playerItem);
         }
 
-        public PlayerItem Update(int id, PlayerItem playerItem)
+        public PlayerItem Update(Guid id, PlayerItem playerItem)
         {
             throw new NotImplementedException();
         }
 
-        public ServiceResult Delete(int id)
+        public ServiceResult Delete(Guid id)
         {
             var playerItem = _database.PlayerItems.SingleOrDefault(pi => pi.Id == id);
 

@@ -27,7 +27,7 @@ namespace ActionCommandGame.UI.Mvc
         {
             // Register EF sql-database
             var gameConnectionString = Configuration.GetConnectionString("gameDatabaseTest");
-            services.AddDbContext<ActionButtonGameDbContext>(options =>
+            services.AddDbContext<ActionButtonGameUiDbContext>(options =>
             {
                 options.UseSqlServer(gameConnectionString);
             });

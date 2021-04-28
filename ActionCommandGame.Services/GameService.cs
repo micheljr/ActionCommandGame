@@ -14,7 +14,7 @@ namespace ActionCommandGame.Services
     public class GameService : IGameService
     {
         private readonly AppSettings _appSettings;
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
         private readonly IPlayerService _playerService;
         private readonly IPositiveGameEventService _positiveGameEventService;
         private readonly INegativeGameEventService _negativeGameEventService;
@@ -23,7 +23,7 @@ namespace ActionCommandGame.Services
 
         public GameService(
             AppSettings appSettings,
-            ActionButtonGameDbContext database,
+            ActionButtonGameUiDbContext database,
             IPlayerService playerService,
             IPositiveGameEventService positiveGameEventService,
             INegativeGameEventService negativeGameEventService,
@@ -39,7 +39,7 @@ namespace ActionCommandGame.Services
             _playerItemService = playerItemService;
         }
 
-        public ServiceResult<GameResult> PerformAction(int playerId)
+        public ServiceResult<GameResult> PerformAction(Guid playerId)
         {
             //Check Cooldown
             var player = _playerService.Get(playerId);
@@ -153,7 +153,7 @@ namespace ActionCommandGame.Services
             return serviceResult;
         }
 
-        public ServiceResult<BuyResult> Buy(int playerId, int itemId)
+        public ServiceResult<BuyResult> Buy(Guid playerId, Guid itemId)
         {
             var player = _playerService.Get(playerId);
             if (player == null)

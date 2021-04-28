@@ -1,4 +1,5 @@
-﻿using ActionCommandGame.Model;
+﻿using System;
+using ActionCommandGame.Model;
 using ActionCommandGame.Repository.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,6 @@ namespace ActionCommandGame.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ConfigureRelationships();
-
             base.OnModelCreating(modelBuilder);
         }
 
@@ -45,6 +45,7 @@ namespace ActionCommandGame.Repository
                 Price = 10000000
             });
 
+            Players.Add(new Player {Name = "NewPlayer", Money = 0, Experience = 0, Id = Guid.NewGuid()});
             Players.Add(new Player { Name = "John Doe", Money = 100 });
             Players.Add(new Player { Name = "John Francks", Money = 100000, Experience = 2000 });
             Players.Add(new Player { Name = "Luc Doleman", Money = 500, Experience = 5 });

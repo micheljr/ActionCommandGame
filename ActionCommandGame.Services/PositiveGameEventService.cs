@@ -10,14 +10,14 @@ namespace ActionCommandGame.Services
 {
     public class PositiveGameEventService: IPositiveGameEventService
     {
-        private readonly ActionButtonGameDbContext _database;
+        private readonly ActionButtonGameUiDbContext _database;
 
-        public PositiveGameEventService(ActionButtonGameDbContext database)
+        public PositiveGameEventService(ActionButtonGameUiDbContext database)
         {
             _database = database;
         }
 
-        public PositiveGameEvent Get(int id)
+        public PositiveGameEvent Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -47,12 +47,12 @@ namespace ActionCommandGame.Services
             throw new NotImplementedException();
         }
 
-        public PositiveGameEvent Update(int id, PositiveGameEvent gameEvent)
+        public PositiveGameEvent Update(Guid id, PositiveGameEvent gameEvent)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             throw new NotImplementedException();
         }

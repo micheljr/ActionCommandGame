@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ActionCommandGame.Model.Abstractions;
 
 namespace ActionCommandGame.Model
@@ -12,12 +13,12 @@ namespace ActionCommandGame.Model
             DefensePlayers = new List<Player>();
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int PlayerId { get; set; }
+        public Guid PlayerId { get; set; }
         public Player Player { get; set; }
 
-        public int ItemId { get; set; }
+        public Guid ItemId { get; set; }
         public Item Item { get; set; }
 
         public int RemainingFuel { get; set; }
