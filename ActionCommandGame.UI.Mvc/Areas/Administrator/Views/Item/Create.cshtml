@@ -1,0 +1,41 @@
+﻿@model ActionCommandGame.UI.Mvc.Areas.Administrator.Models.SaveItemResource
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" value="0">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Fuel"></label>
+        <input asp-for="Fuel" class="form-control" value="0">
+        <span asp-validation-for="Fuel" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Attack"></label>
+        <input asp-for="Attack" class="form-control" value="0">
+        <span asp-validation-for="Attack" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Defense"></label>
+        <input asp-for="Defense" class="form-control" value="0">
+        <span asp-validation-for="Defense" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ActionCooldownSeconds"></label>
+        <input asp-for="ActionCooldownSeconds" class="form-control" value="0">
+        <span asp-validation-for="ActionCooldownSeconds" class="text-danger"></span>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create item">
+</form>

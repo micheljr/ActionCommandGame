@@ -11,12 +11,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.1.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21201.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.3.21201.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-preview.3.21209.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,6 +33,17 @@
       <Folder Include="Areas\Gamer\Controllers\" />
       <Folder Include="Areas\Gamer\Models\" />
       <Folder Include="Areas\Gamer\Views\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Areas\Account\AccessDenied.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Account\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Account\Register.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Account\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Areas\Account\AccessDenied.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,13 @@
+@model ActionCommandGame.Model.NegativeGameEvent
+
+<tr>
+    <td>@Model.Id</td>
+    <td>@Model.Name</td>
+    <td>@Model.Description</td>
+    <td>@Model.DefenseWithGearDescription</td>
+    <td>@Model.DefenseWithoutGearDescription</td>
+    <td>@Model.DefenseLoss</td>
+    <td>@Model.Probability</td>
+    <td><a class="btn btn-primary" asp-area="Administrator" asp-controller="Event" asp-action="UpdateNegativeGameEvent" asp-route-id="@Model.Id">Update</a></td>
+    <td><a class="btn btn-danger" asp-area="Administrator" asp-controller="Event" asp-action="DeleteNegativeGameEvent" asp-route-id="@Model.Id">Remove</a></td>
+</tr>

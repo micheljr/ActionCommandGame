@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ActionCommandGame.Model.Item>
+
+<h1>Welcome on the items page!</h1>
+<div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td>Fuel</td>
+            <td>Attack</td>
+            <td>Defence</td>
+            <td>Cooldown</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <partial name="_ItemPartial" model="item"/>
+        }
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" asp-area="Administrator" asp-controller="Item" asp-action="Create">Create Item</a>
+</div>

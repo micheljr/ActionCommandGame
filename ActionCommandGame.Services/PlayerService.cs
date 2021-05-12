@@ -37,17 +37,38 @@ namespace ActionCommandGame.Services
 
         public Player Create(Player player)
         {
-            throw new System.NotImplementedException();
+            player.Experience = 0;
+            player.Money = 0;
+            _database.Players.Add(player);
+            _database.SaveChanges();
+
+            return Get(player.Id);
         }
 
         public Player Update(Guid id, Player player)
         {
-            throw new System.NotImplementedException();
+            var existingPlayer = _database.Players.Find(id);
+            if (existingPlayer == null)
+            {
+                return null;
+            }
+            _database.Update(player);
+            _database.SaveChanges();
+            
+            return player;
         }
 
         public bool Delete(Guid id)
         {
-            throw new System.NotImplementedException();
+            var existingPlayer = _database.Players.Find(id);
+            if (existingPlayer == null)
+            {
+                return false;
+            }
+
+            _database.Players.Remove(existingPlayer);
+            _database.SaveChanges();
+            return true;
         }
 
         public Player GetByName(string name)

@@ -1,0 +1,36 @@
+@model ActionCommandGame.UI.Mvc.Areas.Administrator.Models.SaveNegativeEventResource
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DefenseWithGearDescription"></label>
+        <input asp-for="DefenseWithGearDescription" class="form-control">
+        <span asp-validation-for="DefenseWithGearDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DefenseWithoutGearDescription"></label>
+        <input asp-for="DefenseWithoutGearDescription" class="form-control">
+        <span asp-validation-for="DefenseWithoutGearDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DefenseLoss"></label>
+        <input asp-for="DefenseLoss" class="form-control" value="0">
+        <span asp-validation-for="DefenseLoss" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Probability"></label>
+        <input asp-for="Probability" class="form-control" value="0">
+        <span asp-validation-for="Probability" class="text-danger"></span>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create item">
+</form>

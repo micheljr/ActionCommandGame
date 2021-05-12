@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ActionCommandGame.UI.Mvc.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ActionCommandGame.UI.Mvc.Controllers
 {

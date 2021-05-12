@@ -1,0 +1,48 @@
+﻿@model ActionCommandGame.UI.Mvc.Areas.Administrator.Models.EventsModel
+
+<h1>Welcome on the events page!</h1>
+<h2>Positive Game Events</h2>
+<div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Money</td>
+            <td>Experience</td>
+            <td>Probability</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.PositiveGameEvents)
+        {
+            <partial name="_PositiveGameEventPartial" model="item"/>
+        }
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" asp-area="Administrator" asp-controller="Event" asp-action="CreatePositiveGameEvent">Create positive game event!</a>
+</div>
+<h2>Negative Game Events</h2>
+<div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Defense With Gear Descripition</td>
+            <td>Defense Without Gear Description</td>
+            <td>Defense loss</td>
+            <td>Probability</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.NegativeGameEvents)
+        {
+            <partial name="_NegativeGameEventPartial" model="item"/>
+        }
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" asp-area="Administrator" asp-controller="Event" asp-action="CreateNegativeGameEvent">Create negative game event!</a>
+</div>

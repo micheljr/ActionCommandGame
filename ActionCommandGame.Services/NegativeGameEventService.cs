@@ -19,7 +19,7 @@ namespace ActionCommandGame.Services
 
         public NegativeGameEvent Get(Guid id)
         {
-            throw new NotImplementedException();
+            return _database.NegativeGameEvents.Find(id);
         }
 
         public NegativeGameEvent GetRandomNegativeGameEvent()
@@ -35,17 +35,42 @@ namespace ActionCommandGame.Services
 
         public NegativeGameEvent Create(NegativeGameEvent gameEvent)
         {
-            throw new NotImplementedException();
+            var createdEvent = _database.NegativeGameEvents.Add(gameEvent);
+            _database.SaveChanges();
+            return createdEvent.Entity;
         }
 
         public NegativeGameEvent Update(Guid id, NegativeGameEvent gameEvent)
         {
-            throw new NotImplementedException();
+            var dbEvent = _database.NegativeGameEvents.Find(id);
+            if (dbEvent == null)
+            {
+                return null;
+            }
+
+            dbEvent.Description = gameEvent.Description;
+            dbEvent.Name = gameEvent.Name;
+            dbEvent.Probability = gameEvent.Probability;
+            dbEvent.DefenseLoss = gameEvent.DefenseLoss;
+            dbEvent.DefenseWithGearDescription = gameEvent.DefenseWithGearDescription;
+            dbEvent.DefenseWithoutGearDescription = gameEvent.DefenseWithoutGearDescription;
+
+            var updatedEvent = _database.NegativeGameEvents.Update(dbEvent);
+            _database.SaveChanges();
+            return updatedEvent.Entity;
         }
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var dbEvent = _database.NegativeGameEvents.Find(id);
+            if (dbEvent == null)
+            {
+                return false;
+            }
+
+            var deletedEvent = _database.NegativeGameEvents.Remove(dbEvent);
+            _database.SaveChanges();
+            return deletedEvent.Entity != null;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ActionCommandGame.Services
 
         public PlayerItem Get(Guid id)
         {
-            throw new NotImplementedException();
+            return _database.PlayerItems.Find(id);
         }
 
         public IList<PlayerItem> Find(Guid? playerId = null)
@@ -33,9 +33,7 @@ namespace ActionCommandGame.Services
                     .Where(pi => pi.PlayerId == playerId);
 
             }
-
-
-
+            
             return query.ToList();
         }
 
@@ -91,7 +89,16 @@ namespace ActionCommandGame.Services
 
         public PlayerItem Update(Guid id, PlayerItem playerItem)
         {
-            throw new NotImplementedException();
+            var dbItem = _database.PlayerItems.Find(id);
+            if (dbItem == null)
+            {
+                return null;
+            }
+
+            playerItem.Id = dbItem.Id;
+            var updatedItem = _database.PlayerItems.Update(playerItem).Entity;
+            _database.SaveChanges();
+            return updatedItem;
         }
 
         public ServiceResult Delete(Guid id)

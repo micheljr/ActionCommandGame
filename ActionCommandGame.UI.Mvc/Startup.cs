@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ActionCommandGame.Repository;
+using ActionCommandGame.Services;
+using ActionCommandGame.Services.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +28,7 @@ namespace ActionCommandGame.UI.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Register EF sql-database
+            // Register EF sql-database voor game
             var gameConnectionString = Configuration.GetConnectionString("gameDatabaseTest");
             services.AddDbContext<ActionButtonGameUiDbContext>(options =>
             {
@@ -38,7 +41,34 @@ namespace ActionCommandGame.UI.Mvc
             {
                 options.UseSqlServer(userConnectionString);
             });
-            
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+                .AddRoles<IdentityRole>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<ActionButtonUsersDbContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Account/login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
+            services.AddScoped<INegativeGameEventService, NegativeGameEventService>();
+
             services.AddControllersWithViews();
         }
 
@@ -61,6 +91,7 @@ namespace ActionCommandGame.UI.Mvc
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

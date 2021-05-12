@@ -1,8 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "TunnelMiner startpagina";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welkom op de website van de TunnelMiner-game!</h1>
 </div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        <a asp-area="Gamer" asp-controller="Home" asp-action="Index">Play!</a>
+    </div>  
+}

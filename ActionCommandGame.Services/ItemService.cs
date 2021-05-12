@@ -4,6 +4,7 @@ using System.Linq;
 using ActionCommandGame.Model;
 using ActionCommandGame.Repository;
 using ActionCommandGame.Services.Abstractions;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ActionCommandGame.Services
 {
@@ -28,17 +29,34 @@ namespace ActionCommandGame.Services
 
         public Item Create(Item item)
         {
-            throw new NotImplementedException();
+            item.Id = Guid.NewGuid();
+            _database.Items.Add(item);
+            _database.SaveChanges();
+            
+            return item;
         }
 
         public Item Update(Guid id, Item item)
         {
-            throw new NotImplementedException();
+            _database.Items.Update(item);
+            _database.SaveChanges();
+            return item;
+            
         }
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var item = _database.Items.Find(id);
+                _database.Items.Remove(item);
+                _database.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
