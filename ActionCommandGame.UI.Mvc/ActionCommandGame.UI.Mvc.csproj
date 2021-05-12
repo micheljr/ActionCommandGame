@@ -33,6 +33,7 @@
       <Folder Include="Areas\Gamer\Controllers\" />
       <Folder Include="Areas\Gamer\Models\" />
       <Folder Include="Areas\Gamer\Views\" />
+      <Folder Include="wwwroot\images" />
     </ItemGroup>
 
     <ItemGroup>

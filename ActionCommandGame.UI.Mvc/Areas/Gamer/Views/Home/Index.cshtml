@@ -1,4 +1,4 @@
-﻿@model ActionCommandGame.Model.Player
+﻿@model ActionCommandGame.UI.Mvc.Areas.Gamer.Models.GameModel
 
 
 @if (@Model == null)
@@ -9,10 +9,11 @@
             <form  method="post">
                 <h4>Choose a new username.</h4>
                 <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label asp-for="Player.Name"></label>
+                    <input asp-for="Player.Name" class="form-control" />
+                    <span asp-validation-for="Player.Name" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Make player</button>
             </form>
@@ -21,5 +22,22 @@
 }
 else
 {
-    
+    <h1>Welcome @Model.Player.Name!</h1>
+    <div class="gameContainer">
+        <div>
+            <div class="actionContainer">
+                <!-- TODO Event mooi toevoegen. -->
+                @if (Model.Event != null)
+                {
+                    <p>@Model.Event.Name</p>
+                    <p>@Model.Event.Description</p>
+                }
+
+            </div>
+            <div class="InventoryContainer"></div>
+        </div>
+        <div>
+            <div class="actionsContainer"></div>
+        </div>
+    </div>
 }

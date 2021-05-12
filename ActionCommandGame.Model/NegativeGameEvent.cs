@@ -3,7 +3,7 @@ using ActionCommandGame.Model.Abstractions;
 
 namespace ActionCommandGame.Model
 {
-    public class NegativeGameEvent: IIdentifiable, IHasProbability
+    public class NegativeGameEvent: IGameEvent
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

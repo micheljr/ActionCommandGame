@@ -9,5 +9,7 @@ namespace ActionCommandGame.UI.Mvc.Areas.Gamer.Models
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
+
+        public bool UsernameInUse { get; set; }
     }
 }
