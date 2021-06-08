@@ -6,6 +6,7 @@ using ActionCommandGame.Repository;
 using ActionCommandGame.Services.Abstractions;
 using ActionCommandGame.Services.Extensions;
 using ActionCommandGame.Services.Model.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace ActionCommandGame.Services
 {
@@ -30,7 +31,9 @@ namespace ActionCommandGame.Services
             if (playerId.HasValue)
             {
                 query = query
-                    .Where(pi => pi.PlayerId == playerId);
+                    .Where(pi => pi.PlayerId == playerId)
+                    .Include(p => p.Item)
+                    .Include(p => p.Player);
 
             }
             

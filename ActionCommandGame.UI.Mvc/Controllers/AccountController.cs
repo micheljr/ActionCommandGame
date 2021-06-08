@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ActionCommandGame.UI.Mvc.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -48,34 +49,12 @@ namespace ActionCommandGame.UI.Mvc.Controllers
                 return View(registerModel);
             }
 
-            if (registerModel.Admin)
+            var roleResult = await AddToRole(registerModel.Admin, user);
+            if (roleResult)
             {
-                var roleResult = await _userManager.AddToRoleAsync(user, "Administrator");
-                
-                if (!roleResult.Succeeded)
-                {
-                    foreach (var error in userResult.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-
-                    return View(registerModel);
-                }
+                return View(registerModel);
             }
-            else
-            {
-                var roleResult = await _userManager.AddToRoleAsync(user, "Gamer"); 
-                
-                if (!roleResult.Succeeded)
-                {
-                    foreach (var error in userResult.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-
-                    return View(registerModel);
-                }
-            }
+            
 
             await _signInManager.SignInAsync(user, false);
 
@@ -126,6 +105,165 @@ namespace ActionCommandGame.UI.Mvc.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Manage()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditEmail(string returnUrl = null)
+        {
+            returnUrl ??= Url.Action("Index", "Home");
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var model = new EditEmailModel
+            {
+                ReturnUrl = returnUrl,
+                Email = user.Email
+            };
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEmail(EditEmailModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong updating the email address.");
+                return View(model);
+            }
+            
+            return RedirectToAction("Manage");
+        }
+
+        [HttpGet]
+        public IActionResult EditPassword(string returnUrl = null)
+        {
+            returnUrl ??= Url.Action("Index", "Home");
+
+            var model = new EditPasswordModel()
+            {
+                ReturnUrl = returnUrl
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(EditPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong updating the password.");
+                return View(model);
+            }
+
+            return RedirectToAction("Manage");
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> EditAuthorization(string returnUrl = null)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userIsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+            
+            returnUrl ??= Url.Action("Index", "Home");
+            var model = new EditAuthorizationModel
+            {
+                ReturnUrl = returnUrl,
+                WantsAdminRights = userIsAdmin
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAuthorization(EditAuthorizationModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var result = await AddToRole(model.WantsAdminRights, user);
+
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong updating the authorization.");
+                return View(model);
+            }
+
+            return RedirectToAction("Manage");
+        }
+
+        private async Task<bool> AddToRole(bool wantsAdminRights, IdentityUser user)
+        {
+            var isInAdminRole = await _userManager.IsInRoleAsync(user, "Administrator");
+            if (wantsAdminRights && !isInAdminRole)
+            {
+                var removeResult = await _userManager.RemoveFromRoleAsync(user, "Gamer");
+                var adminResult = await _userManager.AddToRoleAsync(user, "Administrator");
+                
+                if (!adminResult.Succeeded && !removeResult.Succeeded)
+                {
+                    foreach (var error in adminResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    foreach (var error in removeResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return false;
+                }
+
+                return true;
+            }
+            
+            var isInGamerRole = await _userManager.IsInRoleAsync(user, "Gamer");
+            if (!isInGamerRole)
+            {
+                var removeResult = await _userManager.RemoveFromRoleAsync(user, "Administrator");
+                var gamerResult = await _userManager.AddToRoleAsync(user, "Gamer");
+                if (!gamerResult.Succeeded && removeResult.Succeeded) 
+                {
+                    foreach (var error in gamerResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    foreach (var error in removeResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -94,3 +94,10 @@ body .container {
   height: 500px;
   width: 100%;
 }
+
+.innerPosGameEvent {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  
+}

@@ -41,6 +41,9 @@
       <_ContentIncludedByDefault Remove="Areas\Account\Login.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Account\Register.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Account\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Manage\Email.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Manage\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Manage\_ManageNav.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

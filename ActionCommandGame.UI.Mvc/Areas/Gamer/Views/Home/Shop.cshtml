@@ -1,0 +1,34 @@
+﻿@model ActionCommandGame.UI.Mvc.Areas.Gamer.Models.GameModel
+
+@{
+    ViewData["Title"] = "Welcome to the shop!";
+}
+<h1>@ViewData["Title"]</h1>
+<h2>Your money: @Model.Player.Money</h2>
+<h2>Current item(s) in inventory: </h2>
+@if (Model.PlayerItems == null)
+{
+    <p>Nothing!</p>
+}
+else
+{
+    <ul class="list-unstyled">
+        @foreach (var item in Model.PlayerItems)
+        {
+            <li>@item.Item.Name</li>
+        }
+    </ul>
+}
+<hr>
+<div asp-validation-summary="All" class="text-danger"></div>
+<h2>Items for sale:</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="itemContainer">
+            @foreach (var item in Model.Items)
+            {
+                <partial name="_shopPartial" model="item"/>
+            }
+        </div>
+    </div>
+</div>

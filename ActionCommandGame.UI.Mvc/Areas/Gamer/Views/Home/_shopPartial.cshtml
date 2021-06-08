@@ -1,0 +1,8 @@
+﻿@model ActionCommandGame.Model.Item
+
+<div class="badge">
+    <p>@Model.Name</p>
+    <p>@Model.Price</p>
+    <a class="btn btn-primary" asp-action="BuyItem" asp-route-itemId="@Model.Id">Buy!</a>
+</div>
+

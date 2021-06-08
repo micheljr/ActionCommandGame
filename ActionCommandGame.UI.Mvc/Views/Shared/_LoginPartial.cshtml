@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> _signInManager
+@inject UserManager<IdentityUser> _userManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (_signInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            Hello @User.Identity.Name!
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Manage">Hello @User.Identity.Name!</a>
         </li>
         @if (User.IsInRole("Administrator"))
         {

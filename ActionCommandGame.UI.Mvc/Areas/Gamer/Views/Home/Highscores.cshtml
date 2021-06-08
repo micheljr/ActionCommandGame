@@ -1,0 +1,17 @@
+﻿@model IList<ActionCommandGame.Model.Player>
+
+@{
+    ViewData["Title"] = "Highscores page!";
+    var playerList = Model.OrderByDescending(x => x.Experience);
+}
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Experience</th>
+    </tr>
+    @foreach (var player in playerList)
+    {
+        <partial name="_highscorePartial" model="player"/>
+    }
+</table>

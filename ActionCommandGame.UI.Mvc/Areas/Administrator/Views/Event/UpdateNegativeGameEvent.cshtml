@@ -1,3 +1,43 @@
 ﻿@model ActionCommandGame.UI.Mvc.Areas.Administrator.Models.SaveNegativeEventResource
+@{
+    ViewData["Title"] = $"Update the {Model.Name} game event!";
+}
 
-<h2>Update the @Model.Name game event!</h2>
+<h2>ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-route-id="@Model.Id">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefenseWithGearDescription"></label>
+                <input asp-for="DefenseWithGearDescription" class="form-control"/>
+                <span asp-validation-for="DefenseWithGearDescription"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefenseWithoutGearDescription"></label>
+                <input asp-for="DefenseWithoutGearDescription" class="form-control"/>
+                <span asp-validation-for="DefenseWithoutGearDescription"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefenseLoss"></label>
+                <input asp-for="DefenseLoss" class="form-control"/>
+                <span asp-validation-for="DefenseLoss"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Probability"></label>
+                <input asp-for="Probability" class="form-control"/>
+                <span asp-validation-for="Probability"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>

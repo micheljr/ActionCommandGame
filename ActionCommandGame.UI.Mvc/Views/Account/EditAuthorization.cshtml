@@ -1,0 +1,15 @@
+﻿@model EditAuthorizationModel
+
+@{
+    ViewData["Title"] = "Edit your authorization!";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-check">
+        <input asp-for="WantsAdminRights" class="form-check-input" type="checkbox">
+        <label asp-for="WantsAdminRights">Admin?</label>
+    </div>
+    <button type="submit" class="btn-primary btn">Edit rights</button>
+</form>

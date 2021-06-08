@@ -119,9 +119,9 @@ namespace ActionCommandGame.UI.Mvc.Areas.Administrator.Controllers
                 return View();
             }
 
-            var negEvent = _mapper.Map<SaveNegativeEventResource, PositiveGameEvent>(resource);
+            var negEvent = _mapper.Map<SaveNegativeEventResource, NegativeGameEvent>(resource);
 
-            var newEvent = _positiveGameEventService.Create(negEvent);
+            var newEvent = _negativeGameEventService.Create(negEvent);
 
             if (newEvent == null)
             {
@@ -143,11 +143,12 @@ namespace ActionCommandGame.UI.Mvc.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult UpdateNegativeGameEvent(Guid id, SaveNegativeEventResource resource)
         {
+            var negativeGameEvent = _negativeGameEventService.Get(id);
+            var negativeGameEventResource =
+                _mapper.Map<NegativeGameEvent, SaveNegativeEventResource>(negativeGameEvent);
             if (!ModelState.IsValid)
             {
-                var negEvent = _negativeGameEventService.Get(id);
-                var eventResource = _mapper.Map<NegativeGameEvent, SaveNegativeEventResource>(negEvent);
-                return View(eventResource);
+                return View(negativeGameEventResource);
             }
 
             var mappedEvent = _mapper.Map<SaveNegativeEventResource, NegativeGameEvent>(resource);
@@ -157,9 +158,7 @@ namespace ActionCommandGame.UI.Mvc.Areas.Administrator.Controllers
             if (updatedEvent == null)
             {
                 ModelState.AddModelError(string.Empty, "Something went wrong updating the event.");
-                var negEvent = _negativeGameEventService.Get(id);
-                var eventResource = _mapper.Map<NegativeGameEvent, SaveNegativeEventResource>(negEvent);
-                return View(eventResource);
+                return View(negativeGameEventResource);
             }
 
             return RedirectToAction("Index");

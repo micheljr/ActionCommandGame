@@ -8,8 +8,10 @@ namespace ActionCommandGame.UI.Mvc.Areas.Gamer.Models
     public class GameModel
     {
         public Player Player { get; set; }
-        public List<Item> Items { get; set; }
-        public List<PlayerItem> PlayerItems { get; set; }
-        public IGameEvent Event { get; set; }
+        
+        public IList<Item> Items { get; set; }
+        public IList<PlayerItem> PlayerItems { get; set; }
+        public PositiveGameEvent PositiveGameEvent { get; set; }
+        public NegativeGameEvent NegativeGameEvent { get; set; }
     }
 }

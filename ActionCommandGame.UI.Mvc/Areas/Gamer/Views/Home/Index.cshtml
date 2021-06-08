@@ -4,6 +4,7 @@
 @if (@Model == null)
 {
     <h1>Gamer page!</h1>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
             <form  method="post">
@@ -23,21 +24,54 @@
 else
 {
     <h1>Welcome @Model.Player.Name!</h1>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="gameContainer">
         <div>
-            <div class="actionContainer">
-                <!-- TODO Event mooi toevoegen. -->
-                @if (Model.Event != null)
+            <div id="positiveGameEvents">
+                @if (Model.PositiveGameEvent != null)
                 {
-                    <p>@Model.Event.Name</p>
-                    <p>@Model.Event.Description</p>
+                    <h2 class="text-light bg-success">Something good happened!</h2>
+                    <div class="innerPosGameEvent">
+                        <div class="text-info">
+                            <p>@Model.PositiveGameEvent.Name</p>
+                            <p>@Model.PositiveGameEvent.Description</p>
+                        </div>
+                        <div class="text-primary">
+                            <p>You gained @Model.PositiveGameEvent.Money moneys!</p>
+                            <p>You gained @Model.PositiveGameEvent.Experience experience!</p>
+                        </div>
+                    </div>
                 }
 
             </div>
-            <div class="InventoryContainer"></div>
+            <div class="negativeGameEvents">
+                @if (Model.NegativeGameEvent != null)
+                {
+                    <h2 class="text-danger">Something bad happened!</h2>
+                    <p>@Model.NegativeGameEvent.Name</p>
+                    <p>@Model.NegativeGameEvent.Description</p>
+                }
+
+            </div>
+            <div class="InventoryContainer">
+                <h4>Inventory</h4>
+                <ul class="list-unstyled">
+                    @if (Model.PlayerItems != null)
+                    {
+                        foreach (var item in @Model.PlayerItems)
+                        {
+                            <li>@item.Item.Name</li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
         <div>
-            <div class="actionsContainer"></div>
+            <div class="actionsContainer">
+                <a class="btn btn-primary" asp-action="PerformAction" asp-route-id="@Model.Player.Id">Mine!</a>
+                <a class="btn btn-secondary" asp-action="Shop" asp-route-id="@Model.Player.Id">Shop!</a>
+                <a class="btn btn-secondary" asp-action="HighScores">Highscores</a>
+            </div>
         </div>
     </div>
 }

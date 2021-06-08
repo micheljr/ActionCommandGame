@@ -1,8 +1,10 @@
 ﻿
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ActionCommandGame.Model;
 using ActionCommandGame.Services.Abstractions;
+using ActionCommandGame.Services.Extensions;
 using ActionCommandGame.UI.Mvc.Areas.Gamer.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -15,30 +17,32 @@ namespace ActionCommandGame.UI.Mvc.Areas.Gamer.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
-        private readonly IPositiveGameEventService _positiveGameEventService;
+        private readonly IPlayerItemService _playerItemService;
+        private readonly IGameService _gameService;
+        private readonly IItemService _itemService;
 
-        public HomeController(UserManager<IdentityUser> userManager, IPlayerService playerService, IMapper mapper, IPositiveGameEventService positiveGameEventService)
+        public HomeController(UserManager<IdentityUser> userManager, IPlayerService playerService, IMapper mapper, IPlayerItemService playerItemService, IGameService gameService, IItemService itemService)
         {
             _userManager = userManager;
             _playerService = playerService;
             _mapper = mapper;
-            _positiveGameEventService = positiveGameEventService;
+            _playerItemService = playerItemService;
+            _gameService = gameService;
+            _itemService = itemService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(GameModel model = null)
         {
             // get logged in user.
             var user = await GetCurrentUserAsync();
             var player = _playerService.Get(Guid.Parse(user.Id));
-            
-            var testEvent = _positiveGameEventService.Get(Guid.Parse("B57A8AB3-F8ED-460D-BD86-41303A9B38F0"));
-            
-            var model = new GameModel
-            {
-                Player = player,
-                Event = testEvent
-            };
+            var playerItemList = _playerItemService.Find(player.Id).ToList();
+
+            model ??= new GameModel();
+
+            model.Player = player;
+            model.PlayerItems = playerItemList;
 
             return View(model);
         }
@@ -50,16 +54,19 @@ namespace ActionCommandGame.UI.Mvc.Areas.Gamer.Controllers
             {
                 return View();
             }
+            
             // check if username is already in use.
             var existingPlayer = _playerService.GetByName(resource.Name);
             if (existingPlayer != null)
             {
-                ModelState.AddModelError("UsernameInUse", "This username is already in use. Please choose another.");
+                ModelState.AddModelError(string.Empty, "This username is already in use. Please choose another.");
                 return View();
             }
+            
             //get logged in user.
             var user = await GetCurrentUserAsync();
             resource.Id = Guid.Parse(user.Id);
+            
             // map resource to player, then save the player.
             var player = _mapper.Map<SavePlayerResource, Player>(resource);
             var dbPlayer = _playerService.Create(player);
@@ -69,19 +76,92 @@ namespace ActionCommandGame.UI.Mvc.Areas.Gamer.Controllers
                 return View();
             }
 
-            
-            
-            var model = new GameModel
+            return View();
+        }
+
+        public IActionResult PerformAction(Guid id)
+        {
+            var result = _gameService.PerformAction(id);
+            var player = result.Data.Player;
+            var positiveGameEvent = result.Data.PositiveGameEvent;
+            var negativeGameEvent = result.Data.NegativeGameEvent;
+            var playerItemList = _playerItemService.Find(player.Id);
+            var gameModel = new GameModel
             {
-                Player = dbPlayer
+                Player = player,
+                PlayerItems = playerItemList
             };
 
+            if (positiveGameEvent != null)
+            {
+                gameModel.PositiveGameEvent = positiveGameEvent;
+                
+            }
+
+            if (negativeGameEvent != null)
+            {
+                gameModel.NegativeGameEvent = negativeGameEvent;
+            }
+
+            return View("Index", gameModel);
+        }
+
+        public IActionResult Shop(Guid id)
+        {
+            var player = _playerService.Get(id);
+            var playerItemList = _playerItemService.Find(id);
+            var itemList = _itemService.Find();
+            var model = new GameModel
+            {
+                Player = player,
+                PlayerItems = playerItemList,
+                Items = itemList
+            };
             return View(model);
+        }
+
+        public async Task<IActionResult> BuyItem(Guid itemId)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var idResult = Guid.TryParse(user.Id, out var playerId);
+            var player = _playerService.Get(playerId);
+            var playerItemList = _playerItemService.Find(playerId);
+            var itemList = _itemService.Find();
+            var model = new GameModel
+            {
+                Player = player,
+                PlayerItems = playerItemList,
+                Items = itemList
+            };
+            if (!idResult)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong getting the player.");
+                return View("Shop", model);
+            }
+            
+            var result = _gameService.Buy(playerId, itemId);
+            if (!result.IsSuccess)
+            {
+
+                foreach (var message in result.Messages)
+                {
+                    ModelState.AddModelError(string.Empty, message.Message);
+                }
+                return View("Shop", model);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult HighScores()
+        {
+            var players = _playerService.Find();
+            return View(players);
         }
 
         /*
          * Gets the currently logged in user from HttpContext (cookie).
          */
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private async Task<IdentityUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
     }
 }

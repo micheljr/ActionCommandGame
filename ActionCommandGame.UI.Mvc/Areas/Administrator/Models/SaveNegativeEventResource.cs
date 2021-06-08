@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ActionCommandGame.UI.Mvc.Areas.Administrator.Models
 {
     public class SaveNegativeEventResource
     {
+        public Guid Id { get; set; }
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ActionCommandGame.Repository;
 using ActionCommandGame.Services;
 using ActionCommandGame.Services.Abstractions;
+using ActionCommandGame.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -68,6 +69,12 @@ namespace ActionCommandGame.UI.Mvc
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
             services.AddScoped<INegativeGameEventService, NegativeGameEventService>();
+            services.AddScoped<IPlayerItemService, PlayerItemService>();
+            services.AddScoped<IGameService, GameService>();
+            
+            var appSettings = new AppSettings();
+            Configuration.Bind(nameof(AppSettings), appSettings);
+            services.AddSingleton<AppSettings>();
 
             services.AddControllersWithViews();
         }

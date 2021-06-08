@@ -13,7 +13,6 @@ namespace ActionCommandGame.Repository
     {
         public ActionButtonUsersDbContext(DbContextOptions<ActionButtonUsersDbContext> options) : base(options)
         {
-
         }
     }
 }

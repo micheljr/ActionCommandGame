@@ -8,7 +8,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div>
-        <a asp-area="Gamer" asp-controller="Home" asp-action="Index">Play!</a>
+    <div class="w-100 h-100 text-center">
+        <a class="btn-lg btn-primary" asp-area="Gamer" asp-controller="Home" asp-action="Index">Play!</a>
     </div>  
 }

@@ -47,7 +47,7 @@ namespace ActionCommandGame.Services
 
         public Player Update(Guid id, Player player)
         {
-            var existingPlayer = _database.Players.Find(id);
+           var existingPlayer = _database.Players.Find(id);
             if (existingPlayer == null)
             {
                 return null;

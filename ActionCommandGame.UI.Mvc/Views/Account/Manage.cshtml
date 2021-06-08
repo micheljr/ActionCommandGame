@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Account management page";
+}
+
+<h1>@ViewData["Title"]</h1>
+<ul class="list-unstyled">
+    <li>
+        <a class="btn btn-primary" asp-controller="Account" asp-action="EditEmail">Edit Email</a>
+    </li>
+    <li>
+        <a class="btn btn-primary" asp-controller="Account" asp-action="EditPassword">Edit Password</a>
+    </li>
+    <li>
+        <a class="btn btn-primary" asp-controller="Account" asp-action="EditAuthorization">Edit Authorization</a>
+    </li>
+</ul>
